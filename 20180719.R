@@ -1,6 +1,8 @@
 # 20180719
 # ctrl + enter => execute
 
+rm(list = ls())
+
 1 + 3
 
 x <- sum(1:10)
@@ -13,3 +15,11 @@ tail(iris)
 View(iris)
 
 plot(iris[,1], iris[,2], col=iris[,5])
+
+#install.packages("installr")
+library(installr)
+installr()
+
+# ctrl + shift + A => format short cut
+# ctrl + shift + C => comment short cut
+x <- 123
