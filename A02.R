@@ -157,15 +157,37 @@ rep(LETTERS[1:4], 3)
 rep(LETTERS[1:4], length.out=3)
 
 # 17/60
-c(1, rep(2,times=2), rep(3,times=3), rep(4,times=4), rep(5,times=5))
+# 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5
+rep(1:5, 1:5)
+
+# 5 4 4 3 3 3 2 2 2 2 1 1 1 1 1
+rep(5:1, 1:5)
+
+# 1 2 3 1 2 3 1 2 3
+rep(1:3, 3)
+
 # 0 1 1 2 3 5 8 13 21 34 55
-# fibonacci <- function(x, n) {
-#   t <- 0
-#   result <- c()
-#   for(int i = 0; i < n ; i++) {
-#     
-#   }
-# }
+ fibonacci <- function(n) {
+   result <- c(0, 1)
+   while(length(result) < n) {
+     num <- sum(result[(length(result)-1):length(result)])
+     result <- c(result, num)
+   }
+   print(result)
+ }
+fibonacci(11)
+
+  #TODO: 1 2 3 4 5 2 3 4 5 3 4 5 4 5 5
+       # 1 1 1 1 1 2 2 2 2 3 3 3 4 4 5
+        rev(rep(5:1, 1:5))
+       # 0 1 2 3 4 0 1 2 3 0 1 2 0 1 0 
+        c(0:4,0:3,0:2,0:1,0) 
+# rep(1:5, times = 5) + rep(0:4, each = 5)
+
+
+# 1 6 13 22 33 46 ...
+
+# 1 2 3 4 9 8 27 16 ...
 
 # 18/60
 (x > 10)
@@ -225,6 +247,7 @@ x[2]
 x[5]
 x[0] 
 x[10]
+
 y <- x[!is.na(x)]
 y
 (x+1)[(!is.na(x))&(x>0)] -> z
@@ -274,6 +297,7 @@ c("1", "A", "a") < "a"
 TRUE < FALSE
 T > F
 1 < "a"
+T < "a"
 "a" < FALSE
 
 1 > T
@@ -304,6 +328,7 @@ grade2 <- ordered(grade, levels = rev(levels(grade)))
 grade2
 
 grade2[which(grade2 >= "B")]
+grade2[grade2 >= "B"]
 
 
 # 27/60
@@ -396,7 +421,6 @@ mat[id, ]
 # 33/60
 (y <- array(1:15, dim=c(3, 5)))
 dim(y)
-[1] 3 5
 x <- matrix(1:15, 3, 5)
 x
 x[1]
@@ -443,6 +467,7 @@ my.list
 # 37/60
 my.list
 
+my.list[1]
 my.list[[1]] 
 my.list[[2]]
 my.list[[4]][1]
