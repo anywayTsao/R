@@ -542,6 +542,7 @@ A1
 
 
 # 41/60
+attach(iris)
 index.1 <- iris[, "Species"] == "virginica"
 iris[index.1, ]
 iris[Species == "virginica",]
@@ -549,7 +550,8 @@ iris[!(Species == "virginica"),]
 m <- mean(iris$Sepal.Length)
 index.3 <- iris[, "Sepal.Length"] > m
 iris[index.3, ]
-
+ls()
+detach()
 
 # 42/60
 x1 <- rnorm(5)
@@ -557,16 +559,13 @@ x2 <- rnorm(5)
 x1
 class(x1)
 data.frame(Var1=x1, Var2=x2)
-        Var1       Var2
-
+     
 y1 <- data.frame(rnorm(5))
 y2 <- data.frame(rnorm(5))
 y1
 class(y1)
 data.frame(Var1=y1, Var2=y2)
-     rnorm.5. rnorm.5..1
-
-
+     
 # 43/60
 class(iris)
 head(iris, 3)
@@ -613,7 +612,7 @@ as.Date("22JUN01", format = "%d%b%y")
 seq(as.Date('1976-7-4'), by = 'days', length = 10)
 seq(as.Date('2010-2-1'), to = as.Date('2010-4-1'), by='2 weeks')
 
-lct <- Sys.getlocale("LC_TIME"))
+lct <- Sys.getlocale("LC_TIME")
 Sys.setlocale("LC_TIME", "C")
 
 
@@ -633,6 +632,8 @@ now <- Sys.time()
 as.POSIXct(now)
 as.POSIXlt(now)
 class(now)
+
+
 
 my.date$mday
 my.date$mon
@@ -694,7 +695,7 @@ mode(x)
 # 52/60
 x1 <- 10
 class(x1)
-x2 <- seq(1, 10, 2))
+x2 <- seq(1, 10, 2)
 class(x2)
 
 my.f <-  formula(iris$Sepal.Length ~ iris$Sepal.Width)
