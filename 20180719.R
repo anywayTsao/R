@@ -20,6 +20,13 @@ plot(iris[,1], iris[,2], col=iris[,5])
 library(installr)
 installr()
 
+# R package directory
+# C:\Users\lab-156\AppData\Local\Temp\RtmpQTvEny\downloaded_packages
+
+# package for excel
+library(readxl)
+library(writexl)
+
 # ctrl + shift + A => format short cut
 # ctrl + shift + C => comment short cut
 x <- 123

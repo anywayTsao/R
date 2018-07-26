@@ -118,7 +118,14 @@ e.mat
 
 
 # 14/63
-my.data <- read.table("iris-data1.txt")
+getwd()
+setwd("data")
+my.data <- read.table("iris-data0.txt", header = F)
+colnames(my.data) <- paste(LETTERS[1:5], 1:5, sep = "")
+
+my.data <- read.table("iris-data1.txt", header = T)
+
+head(my.data)
 
 my.data <- read.table("iris-data2.txt", header=TRUE, row.names=1)
 
@@ -156,16 +163,17 @@ x.b1 <- read.table("blank_ex1.txt", header=T)
 x.b1 <- read.table("blank_ex1.txt", header=T, fill=T)
 head(x.b1)
 x.b2 <- read.table("blank_ex2.txt", header=T)
-x.b2 <- read.table("blank_ex2.txt", header=T, fill=T)
+x.b2 <- read.table("blank_ex2.txt", header=T, fill=T, sep = "\t")
 head(x.b2)
+str(x.b2)
 
 
 # 18/63
-read.csv(file, header = TRUE, sep = ",", quote = "\"",
-         dec = ".", fill = TRUE, comment.char = "", ...)
-
-read.csv2(file, header = TRUE, sep = ";", quote = "\"",
-          dec = ",", fill = TRUE, comment.char = "", ...)
+# read.csv(file, header = TRUE, sep = ",", quote = "\"",
+#          dec = ".", fill = TRUE, comment.char = "", ...)
+# 
+# read.csv2(file, header = TRUE, sep = ";", quote = "\"",
+#           dec = ",", fill = TRUE, comment.char = "", ...)
 
 elections <- read.csv("elections-2000.csv")
 head(elections)
@@ -406,10 +414,20 @@ head(mydata.sheet2, 2)
 str(mydata.sheet2)
 
 colnames(mydata.sheet2) <- c(colnames(mydata.sheet2)[1:4],
-                             paste("Quiz", 1:4, sep=""), "TA", "MidCore1", "MidCore2", "MidSum")
+paste("Quiz", 1:4, sep=""), "TA", "MidCore1", "MidCore2", "MidSum")
 head(mydata.sheet2, 2)
 
 write.xlsx(mydata.sheet2, "calculus.xlsx") 
+
+# write excel sample
+xlsx_file <- "mydata.xlsx"
+cname <- c("No", "Department", "ID", "Name", "Quiz1", "Quiz2", "Quiz3", "Quiz4", "Mean", "MidCore1", "MidCore2", "MidSum")
+# read excel file
+calculus <- read_excel(path = xlsx_file, sheet = "calculus", na = "", col_names =  cname, skip = 3)
+# replace NA with 0
+calculus[is.na(calculus)] <- 0
+# write excel
+write_xlsx(calculus, path = "caculus.xlsx")
 
 # 41/63
 library(readxl)
