@@ -5,22 +5,22 @@ setwd("C:\\Program Files\\R\\working")
 
 # 5/100
 x <- 1
-if((x-2) < 0) cat("expr2 \n") else cat("expr3 \n")
-if((x-2) > 0) cat("expr2 \n") else cat("expr3 \n")
+if((x-2) < 0) cat("expr2 \n") else cat("expr3 \n") #expr2
+if((x-2) > 0) cat("expr2 \n") else cat("expr3 \n") #expr3
 
 x <- c(-1, 2, 3)
-if((x-2) < 0) cat("expr2 \n") else cat("expr3 \n")
-if((x-2) > 0) cat("expr2 \n") else cat("expr3 \n")
+if((x-2) < 0) cat("expr2 \n") else cat("expr3 \n") #expr2
+if((x-2) > 0) cat("expr2 \n") else cat("expr3 \n") #expr3
 
 
 # 6/100
 x <- 0
-if(x) cat("expr2 \n") else cat("expr3 \n")
-if(x+1) cat("expr2 \n") else cat("expr3 \n")
+if(x) cat("expr2 \n") else cat("expr3 \n") #expr3
+if(x+1) cat("expr2 \n") else cat("expr3 \n") #expr2
 
 x <- c(-1, 0, 1, 2,3)
-if(x) cat("expr2 \n") else cat("expr3 \n")
-if(x+1) cat("expr2 \n") else cat("expr3 \n")
+if(x) cat("expr2 \n") else cat("expr3 \n") #expr2
+if(x+1) cat("expr2 \n") else cat("expr3 \n") #expr3
 
 
 # 7/100
@@ -37,28 +37,28 @@ if(any(x <=0)){
     y <- log(x)
  }
 y
-x <- c(-1, 2, 3)
-if(any(x <=0)){ 
-  y <- log(1+x} 
-} 
-else{ 
-  y <- log(x)
-}
-y
+# x <- c(-1, 2, 3)
+# if(any(x <=0)){ 
+#   y <- log(1+x)
+# } 
+# else{ 
+#   y <- log(x)
+# }
+# y
 
 x <- c(-1,2,3)
 if(any(x <=0)){ 
     y <- log(1+x) 
+} else{
    y <- log(x)
 }
 
 x <- c(-1,2,3)
 if(any(x <=0)){ 
    y <- log(1+x) 
-} 
+} else {
    y <- log(x)
 }
-
 
 # 8/100
 check.if <- function(a, b){
@@ -92,19 +92,28 @@ check.if(a = c(1, 5), b = c(4, 2, 3))
 identical(a, b) 
 all.equal(pi, 355/113) 
 
+# 9/100
+a <- c(T, T, T, F, T, F)
+b <- c(F, F, T, T, T, F)
+
+a | b
+a & b
+
+a || b
+a && b
 
 # 10/100
 x <- 3
 y <- 4
-x < 2
-y > 2
-x < 2 || y > 2
-x > 2
-y > x
-x > 2 && y > x
+x < 2 # F
+y > 2 # T
+x < 2 || y > 2 # T
+x > 2 # T
+y > x # T
+x > 2 && y > x # T
 
-x < 2 | y > 2
-x > 2 & y > x
+x < 2 | y > 2 # T 
+x > 2 & y > x # T
 
 xv <- c(1, 2, 3)
 yv <- c(2, 2, 5)
@@ -118,21 +127,21 @@ xv < 2 && yv > 2
 xv < 2 && (! yv > 2)
 
 xv < 2 | yv > 2
-(! xv < 2) | yv > 2
-xv < 2 | (! yv > 2)
-xv < 2 & yv > 2
-(! xv < 2) & yv > 2
-xv < 2 & (! yv > 2)
+(! xv < 2) | yv > 2 # F T T
+xv < 2 | (! yv > 2) # T T F
+xv < 2 & yv > 2 # F F F
+(! xv < 2) & yv > 2 # F F T
+xv < 2 & (! yv > 2) # T F F
 
 
 # 11/100
 a <- 2.13
 
-if( a > 10 ){ 
+if( a > 10 ){
     cat("a > 10 \n")
-}else if(a > 5){ 
+}else if(a > 5){
     cat("5 < a < 10 \n")
-}else if(a > 2.5){ 
+}else if(a > 2.5){
     cat("2.5 < a < 5 \n")
 }else if(a > 1.25){
     cat("1.25 < a < 2.5 \n")
@@ -165,17 +174,21 @@ ifelse(FALSE, yes, no)
 
 
 # 13/100
+x <- c(24, 13, 26, 21, 7, 9, 2, 1, 30, 14, 20, 16, 6, 4, 012, 8, 11, 22, 18, 3)
 x
 ifelse(x <= 10, 1, ifelse(x <= 20, 2, 3))
 
 set.seed(12345)
 age <- sample(1:100, 20)
 age
+# category age data 1~20 to A, 21~40 to B, 41~60 to C, else D
+ifelse(age <= 20, "A", ifelse(age <= 40, "B", ifelse(age <= 60, "C", "D")))
 
 set.seed(12345)
 code <- sample(LETTERS[1:5], 20, replace=T)
 code
-
+# category code A and E to 1, B and D to 3, C to 2
+ifelse(code %in% c("A", "E"), 1, ifelse(code %in% c("B", "D"), 3, 2))
 
 # 14/100
 set.seed(12345)
@@ -186,26 +199,68 @@ gpa.table <- data.frame(grade=c("A", "B", "C", "D", "E"),
                         pscore=c("80-100", "70-79", "60-69", "50-59", "49-0"),
                         GPA=c(4, 3, 2, 1, 0))
 gpa.table
+gpa.table[1:5,]
+
 set.seed(12345)
+sample(0:100, 10, replace=T)
 score <- sample(0:100, 10, replace=T)
 
 score_to_gpa <- function(x){
-
-    group.id <- ifelse(x >= 80, 1, 
-                   ifelse(x >= 70, 2, 
-                          ifelse(x >=60, 3, 
-                                 ifelse(x >= 50, 4, 5))))
-    data.frame(score=x, gpa.table[group.id,], row.names = NULL)
+  
+    group.id <- ifelse(x >= 80, 1,
+                     ifelse(x >= 70, 2,
+                            ifelse(x >= 60, 3,
+                                   ifelse(x >= 50, 4, 5))))
+    return (data.frame(score=x, gpa.table[group.id,], row.names = LETTERS[1: length(x)]))
 }
 
 score_to_gpa(score)
 
+score_to_gpa_with_frame <- function(x, myFrame, myRowNames = 1: length(x)) {
+  
+  group.id <- ifelse(x >= 80, 1,
+                     ifelse(x >= 70, 2,
+                            ifelse(x >= 60, 3,
+                                   ifelse(x >= 50, 4, 5))))
+  return (data.frame(score=x, myFrame[group.id,], row.names = myRowNames))
+}
+
+score_to_gpa_with_frame(score, gpa.table, LETTERS[1: length(score)])
+score_to_gpa_with_frame(score, gpa.table)
+
+# input parameter check, only with it passed in
+cylinder.volume <- function(height, radius)
+{
+  if (height < 0) stop("\n'height' must be >= 0")
+  if (radius < 0) stop("\n'radius' must be >= 0")
+  pi * radius^2 * height  
+}
+
+cylinder.volume(height = 1, 
+                radius = -4)
 
 # 20/100
 my.dist <- function(x1, y1, x2, y2){
   d <- sqrt((x1-x2)^2 + (y1-y2)^2)
   d
 }
+
+score <- sample(0:100, 50, replace = TRUE)
+
+ratio_checker <- function(x) {
+  # score
+  n <- length(x)
+  m <- mean(x)
+  s <- sd(x)
+  lower = (m - s)
+  upper = (m + s)
+  result <- x[(lower < x) && (x < upper)]
+  ratio <- length(result) / length(x)
+  
+  list(down = lower, up = upper, result = result, size = length(result), ratio = ratio)
+}
+
+ratio_checker(score)
 
 my.dist2 <- function(x1, y1, x2=0, y2=0){
   d <- sqrt((x1-x2)^2 + (y1-y2)^2)
@@ -801,7 +856,7 @@ head(sdata2, 5)
 tapply(iris$Sepal.Width, iris$Species, mean)
 set.seed(12345)
 scores <- sample(0:100, 50, replace=T)
-grade <- as.factor(sample(c("¤j¤@", "¤j¤G", "¤j¤T", "¤j¥|"), 50, replace=T))
+grade <- as.factor(sample(c("?j?@", "?j?G", "?j?T", "?j?|"), 50, replace=T))
 bloodtype <- as.factor(sample(c("A","AB","B","O"), 50, replace=T))
 tapply(scores, grade, mean)
 tapply(scores, bloodtype, mean)
@@ -1133,25 +1188,25 @@ compute.mu.sigma <- function(pmf, parameter){
   pmf.name <- deparse(substitute(pmf))
   mu <- sum(parameter$k * (do.call("pmf", parameter)))
   sigma2 <- sum((parameter$k - mu)^2 * do.call("pmf", parameter))
-  cat("distribution:¡@", pmf.name, "\n")
+  cat("distribution:?@", pmf.name, "\n")
   cat("mu: ", mu, "\t sigma2:", sigma2, "\n" )
 }
 
 my.par <- list(k = c(0:10), n = 10, p = 0.6)
 compute.mu.sigma(pmf = binomial, parameter = my.par)
-distribution:¡@ binomial 
+distribution:?@ binomial 
 mu:  6   sigma2: 2.4 
 my.par <- list(k = c(0:100), lambda = 4)
 compute.mu.sigma(pmf = poisson, parameter = my.par)
-distribution:¡@ poisson 
+distribution:?@ poisson 
 mu:  4   sigma2: 4 
 my.par <- list(k = c(0:10000), p = 0.4)
 compute.mu.sigma(pmf = geometric, parameter = my.par)
 
 
 # 70/100
-as.numeric(factor(c(¡§a¡¨, ¡§b¡¨, ¡§c¡¨)))
-as.numeric(c(¡§a¡¨, ¡§b¡¨, ¡§c¡¨)) #don¡¦t work
+as.numeric(factor(c(??a??, ??b??, ??c??)))
+as.numeric(c(??a??, ??b??, ??c??)) #don??t work
 
 
 # 71/100
@@ -1207,14 +1262,14 @@ stats:::princomp.default
 
 
 # 89/100
-cat("²Ä¤@ÃD")
+cat("?Ä¤@?D")
 string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
 gregexpr("[(]", string)[[1]]
 length(gregexpr("[(]", string)[[1]])
 
 
 # 90/100
-cat("²Ä¤@ÃD\n")
+cat("?Ä¤@?D\n")
 string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
 left.num <- length(gregexpr("[(]", string)[[1]])
 cat("left.num: ", left.num, "\n")
@@ -1229,10 +1284,10 @@ if(left.num== right.num){
 
 # 91/100
 ex1 <- function(){
-    cat("²Ä¤@ÃD\n")
+    cat("?Ä¤@?D\n")
 
     #string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
-    cat("¿é¤J¥]§t¥ª¥k¤p¬A¸¹¤§¦r¦ê(³Ìªø¬°40¦r¤¸)¡A½Ð§PÂ_¬O§_¥ª¥k¤p¬A¸¹°t¹ï¥¿½T")    
+    cat("???J?]?t???k?p?A?????r??(?Ìª???40?r??)?A?Ð§P?_?O?_???k?p?A???t?ï¥¿?T")    
     string <- scan(what="character", nmax=1, quiet=TRUE)
 
     left.num <- length(gregexpr("[(]", string)[[1]])
@@ -1251,27 +1306,27 @@ ex1()
 
 # 92/100
 ex1 <- function(){
-   cat("²Ä¤@ÃD\n")
+   cat("?Ä¤@?D\n")
    cat("########################################\n")
-   cat("# ¿é¤J¥]§t¥ª¥k¤p¬A¸¹¤§¦r¦ê(³Ìªø¬°40¦r¤¸)¡A   #\n")
-   cat("# ½Ð§PÂ_¬O§_¥ª¥k¤p¬A¸¹°t¹ï¥¿½T              #\n")
-   cat("# ¨Ò¦p¿é¤J¡G {\tt ((1+2)-3)*(4/5)}       #\n")
+   cat("# ???J?]?t???k?p?A?????r??(?Ìª???40?r??)?A   #\n")
+   cat("# ?Ð§P?_?O?_???k?p?A???t?ï¥¿?T              #\n")
+   cat("# ?Ò¦p???J?G {\tt ((1+2)-3)*(4/5)}       #\n")
    cat("########################################\n")
 
-   ##¿é¤J
+   ##???J
    string <- scan(what="character", nmax=1, quiet=TRUE)
 
-   ##§ä¥X"(" ")"¡A¨Ã­p¼Æ
+   ##???X"(" ")"?A?Ã­p??
    left.num <- length(gregexpr("[(]", string)[[1]])
    right.num <- length(gregexpr("[)]", string)[[1]])
 
-   ##§PÂ_¬O§_¬Ûµ¥
+   ##?P?_?O?_?Ûµ?
    if(left.num== right.num){
-     ##¬Oªº¸Ü¡A¿é¥XOK
+     ##?O???Ü¡A???XOK
      cat("OK")
    }
    else{
-     ##¤£¬Oªº¸Ü¡A¿é¥XNOT OK
+     ##???O???Ü¡A???XNOT OK
      cat("Not OK")
    }
 }
@@ -1279,10 +1334,10 @@ Y.or.N <- "y"
 
 while(Y.or.N=="y"){
    ex1()
-   cat("Ä~Äò½m²ß³o¤@ÃD(Y/N): ")
+   cat("?~???m?ß³o?@?D(Y/N): ")
    Y.or.N <- scan(what="character", nmax=1, quiet=TRUE)
-   if(Y.or.N!=¡§y" & Y.or.N!=¡§n"){
-      cat("¿é¤J¿ù»~¡A¦A¿é¤J¤@¦¸ ")
+   if(Y.or.N!=??y" & Y.or.N!=??n"){
+      cat("???J???~?A?A???J?@?? ")
    }
 }
 
