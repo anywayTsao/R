@@ -859,11 +859,22 @@ apply(x, 2, sum)
 apply(x, 1, sqrt) 
 apply(x, 2, sqrt)
 
+transScore <- function(x) {
+  result <- numeric(ncol(x))
+  for (i in 1:ncol(x)) {
+    result[i] = sum(x[,i])
+  }
+  result
+}
+
+transScore(x)
 
 # 46/100
+set.seed(12345)
 math <- sample(1:100, 50, replace=T)
 english <- sample(1:100, 50, replace=T)
 algebra <- sample(1:100, 50, replace=T)
+gender <- sample(c("M", "F"), 50, replace=T)
 ScoreData <- cbind(math, english, algebra)
 head(ScoreData, 5)
 myfun <- function(x){
@@ -873,6 +884,7 @@ sdata1 <- apply(ScoreData, 2, myfun)
 head(sdata1, 5)
 
 head(apply(ScoreData, 2, function(x) sqrt(x)*10), 5)
+
 myfun2 <- function(x, attend){
     y <- sqrt(x)*10 + attend
     ifelse(y > 100, 100, y)
@@ -880,12 +892,19 @@ myfun2 <- function(x, attend){
 sdata2 <- apply(ScoreData, 2, myfun2, attend=5)
 head(sdata2, 5)
 
+my.data <- data.frame(math, english, algebra, gender)
+head(my.data, 5)
 
+tapply(my.data[,1], my.data$gender, mean)
+
+str(my.data)
+str(grade)
+str(scores)
 # 47/100
 tapply(iris$Sepal.Width, iris$Species, mean)
 set.seed(12345)
 scores <- sample(0:100, 50, replace=T)
-grade <- as.factor(sample(c("?j?@", "?j?G", "?j?T", "?j?|"), 50, replace=T))
+grade <- as.factor(sample(c("First", "Second", "Third", "Fourth"), 50, replace=T))
 bloodtype <- as.factor(sample(c("A","AB","B","O"), 50, replace=T))
 tapply(scores, grade, mean)
 tapply(scores, bloodtype, mean)
@@ -909,6 +928,16 @@ by(iris[,1:4] , iris$Species , colMeans)
 varMean <- function(x, ...) sapply(x, mean, ...)
 by(iris[, 1:4], iris$Species, varMean)
 
+# random sample for throwing a coin 100 times and count it.
+coinsSample <- sample(c("Head", "Tail"), 100, replace = TRUE)
+coinsFactor <- factor(coinsSample)
+countResult <- tapply(coinsSample, coinsFactor, length)
+
+gamble <- function(x) {
+  weighted.mean(x, c(1, -2))
+}
+
+##apply(coinsFactor, 2, length)
 
 # 49/100
 a <- c("a", "b", "c", "d")
@@ -936,7 +965,7 @@ dice2 <- sample(1:6, 1)
 dice1 + dice2
 
 my.dice <- function(n){
-   dice.no <- sample(1:6, n)
+   dice.no <- sample(1:6, n, replace = TRUE)
    dice.sum <- sum(dice.no)
    output <- c(dice.no, dice.sum)
    names(output) <- c(paste0("dice", 1:n), "sum")
@@ -996,27 +1025,26 @@ as.vector(Country[grep("^.{,4}$", as.character(Country))])
 
 as.vector(Country[grep("^.{15,}$", as.character(Country))])
 
-strtrim{base}, substr{base}, substring{base}
-strsplit{base}
+#strtrim{base}, substr{base}, substring{base}
+#strsplit{base}
 
 
 # 57/100
 text <- c("arm", "leg", "head", "foot", "hand", "hindleg", "elbow")
 text
-gsub("h", "H", text)
-gsub("o", "O", text)
-sub("o", "O", text)
-gsub("^.", "O", text)
+(gsub("h", "H", text))
+(gsub("o", "O", text))
+(sub("o", "O", text))
+(gsub("^.", "O", text))
 
-replace {base}: Replace Values in a Vector
-replace(x, list, values)
+#replace {base}: Replace Values in a Vector
+#replace(x, list, values)
 
 x <- c(3, 2, 1, 0, 4, 0)
 replace(x, x==0, 1)
 
 replace(text, text=="leg", "LEG")
 replace(text, text %in% c("leg", "foot"), "LEG")
-
 
 # 58/100
 text <- c("arm", "leg", "head", "foot", "hand", "hindleg", "elbow")
@@ -1027,7 +1055,6 @@ gregexpr("o", text)
 
 charmatch("m", c("mean","median","mode"))
 charmatch("med", c("mean","median","mode"))
-
 
 # 59/100
 stock <- c("car", "van")
@@ -1086,7 +1113,7 @@ myFun <- function(n){
 }
 
 system.time({
-     ans <- myFun(10000)
+     ans <- myFun(9990000)
  })
 
 start.time <- proc.time()
@@ -1094,11 +1121,18 @@ for(i in 1:50) mad(runif(500))
 proc.time() - start.time
 
 start.time <- Sys.time()
-ans <- myFun(10000)
+ans <- myFun(9990000)
 end.time <- Sys.time()
 end.time -start.time
 
+getExcuteTime <- function(x) {
+  start.time <- proc.time()
+  x
+  proc.time() - start.time
+}
+getExcuteTime(myFun(9990000))
 
+class(myFun)
 # 63/100
 city <- read.table("city.txt", header=TRUE, row.names=NULL, sep="\t")
 attach(city)
