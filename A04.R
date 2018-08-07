@@ -345,17 +345,30 @@ compute(2, 0)
 
 # 24/100
 two.sample.test <- function(y1, y2){
-    n1 <- length(y1); n2 <- length(y2)
-    m1 <- mean(y1); m2 <- mean(y2)
-    s1 <- var(y1); s2 <- var(y2)
-    s <- ((n1-1)*s1 + (n2-1)*s2)/(n1+n2-2)
-    stat <- (m1-m2)/sqrt(s*(1/n1+1/n2))
-    list(means=c(m1, m2), pool.var=s, stat=stat)
+    n1 <- length(y1); n2 <- length(y2);
+    m1 <- mean(y1); m2 <- mean(y2);
+    s1 <- var(y1); s2 <- var(y2);
+    v <- ((n1-1)*s1 + (n2-1)*s2)/(n1+n2-2);
+    s <- sqrt(((n1-1)*s1 + (n2-1)*s2)/(n1+n2-2));
+    stat <- (m1-m2)/sqrt(v*(1/n1+1/n2));
+    
+    list(means=c(m1, m2), pool.var=v, pool.std=s, stat=stat);
 }
 t.stat <- two.sample.test(iris[,1], iris[,2]) 
 t.stat 
 t.stat 
 
+t.test(iris[,1], iris[,2]);
+my.studentT <- function(x, y) {
+  x.length <- length(x);  y.length <- length(y);
+  x.mean <- mean(x);  y.mean <- mean(y);
+  x.var <- var(x);  y.var <- var(y);
+  pool.std <- sqrt(((x.length-1)*x.var + (y.length-1)*y.var) / (x.length+y.length-2));
+  t <- (x.mean - y.mean) / (pool.std * sqrt(1/x.length + 1/y.length));
+  #???
+  list(x.length=x.length, y.length=y.length, x.mean=x.mean, y.mean=y.mean, pool.std=pool.std, t=t);
+}
+my.studentT(iris[,1], iris[,2]) 
 
 # 25/100
 rm(list=ls())
@@ -491,31 +504,35 @@ many.means <- function(...){
 
     #use [[]] subscripts in addressing its elements.
     data <- list(...) 
+    print(class(data))
     n <- length(data)
+    print(length(data))
     means <- numeric(n)
+    print(means)
     vars  <- numeric(n)
+    print(vars)
     for(i in 1:n){
-        means[i] <-  mean(data[[i]])
-	vars[i] <-  var(data[[i]])
+        means[i] <- mean(data[[i]])
+	      vars[i] <- var(data[[i]])
     }
 
     print(means)
     print(vars)
 }
 
-x <- rnorm(100); y <- rnorm(200); z <- rnorm(300)
+x <- rnorm(100, mean=1); y <- rnorm(200, mean=2); z <- rnorm(300, mean=2)
 many.means(x,y,z)
 
 
 # 31/100
 data.kratio <- function(x, k=1){
-   x.number <- length(x)
+   x.length <- length(x)
    x.mean <- mean(x)
    x.sd <- sd(x)
    x.up <- x.mean + k*x.sd;
    x.down <- x.mean - k*x.sd;
    x.n <- length(x[(x.down < x) & (x < x.up)])
-   x.p <- x.n/x.number
+   x.p <- x.n/x.length
    list(number=x.n, percent=x.p)
 }
 library(MASS)
@@ -583,7 +600,7 @@ a <- numeric(5)
 for(i in 1:5){
   a[i]<- i^2
 }
- a
+a
 
 
 m <- 3
@@ -640,23 +657,23 @@ for(i in 1:m){
 # 38/100
 check.prime <- function(num){
   
-  yes <- FALSE
+  isPrime <- FALSE
   
   if(num == 2){
-    yes <- TRUE
+    isPrime <- TRUE
 
   } else if(num > 2) {
     
-    yes <- TRUE
+    isPrime <- TRUE
     for(i in 2:(num-1)) {
         if ((num %% i) == 0) {
-            yes <- FALSE
+          isPrime <- FALSE
             break
         }
     }
   } 
   
-  if(yes) {
+  if(isPrime) {
     cat(num, "is a prime number. \n")
   } else {
     cat(num, "is not a prime number. \n")
@@ -671,8 +688,8 @@ check.prime(25)
 # 40/100
 a <- 5
 while(a > 0){  
-    a <- a-1  
     cat(a,"\n")
+    a <- a-1  
     if(a==2){
         cat("before next:", a, "\n")
         next
@@ -682,25 +699,24 @@ while(a > 0){
 
 a <- 5
 while(a > 0){  
+    cat(a,"\n")
 
     if(a == 2){
         cat("before break:", a, "\n")
         break
     }
     a <- a-1  
-    cat(a,"\n")
 }
 
 a <- 5
 while(a > 0){  
-
+    cat(a,"\n")
     if(a==2){
         cat("before break:", a, "\n")
         next
         cat("after break:", a, "\n")
     }
     a <- a-1  
-    cat(a,"\n")
 }
 
 
@@ -749,6 +765,17 @@ factorial.call <- function(n, f){
 }
 factorial.call(5, 1)
 
+factorial.myRecursive <- function(x) {
+  if(x <= 1) {
+    return(1)
+  } else {
+    return(x * factorial.myRecursive(x-1))
+  }
+}
+
+factorial.myRecursive(4)
+
+
 factorial.cumprod <- function(n) max(cumprod(1:n))
 factorial.cumprod(5)
 factorial(5)
@@ -761,7 +788,7 @@ switch(x,
          cat("mean(1:10)\n"), 
          cat("sd(1:10)\n"))
 
-switch(x, 2+2, mean(1:10), sd(1:10))
+switch(3, 2+2, mean(1:10), sd(1:10))
 
 switch(2, 2+2, mean(1:10), sd(1:10))
 
@@ -772,9 +799,11 @@ my.lunch <- function(y){
     switch(y, 
            fruit="banana", 
 	   vegetable="broccoli", 
-	   meat="beef")
+	   meat="beef",
+     stop(paste(y, "is not in lunch list!")))
 }
 my.lunch("fruit")
+my.lunch("fruitssssssssssss")
 my.lunch(fruit)
 
 
@@ -1287,7 +1316,7 @@ ex1 <- function(){
     cat("?Ĥ@?D\n")
 
     #string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
-    cat("???J?]?t???k?p?A?????r??(?̪???40?r??)?A?ЧP?_?O?_???k?p?A???t?勵?T")    
+    cat("???J?]?t???k?p?A?????r??(?̪???40?r??)?A?ЧP?_?O?_???k?p?A???t?勵?T")    
     string <- scan(what="character", nmax=1, quiet=TRUE)
 
     left.num <- length(gregexpr("[(]", string)[[1]])
@@ -1309,7 +1338,7 @@ ex1 <- function(){
    cat("?Ĥ@?D\n")
    cat("########################################\n")
    cat("# ???J?]?t???k?p?A?????r??(?̪???40?r??)?A   #\n")
-   cat("# ?ЧP?_?O?_???k?p?A???t?勵?T              #\n")
+   cat("# ?ЧP?_?O?_???k?p?A???t?勵?T              #\n")
    cat("# ?Ҧp???J?G {\tt ((1+2)-3)*(4/5)}       #\n")
    cat("########################################\n")
 
