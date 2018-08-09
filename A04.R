@@ -892,6 +892,8 @@ myfun2 <- function(x, attend){
 sdata2 <- apply(ScoreData, 2, myfun2, attend=5)
 head(sdata2, 5)
 
+# TODO: caculate the weighted mean of two gender 
+# (weight=> math=40%, english=30%, algebra=30%)
 my.data <- data.frame(math, english, algebra, gender)
 head(my.data, 5)
 
@@ -1138,22 +1140,29 @@ city <- read.table("city.txt", header=TRUE, row.names=NULL, sep="\t")
 attach(city)
 names(city)
 
-rank.price <- rank(price)
-sorted.price <- sort(price)
-ordered.price <- order(price)
+(rank.price <- rank(price))
+(sorted.price <- sort(price))
+(ordered.price <- order(price))
+
+order(price, decreasing = TRUE)
+order(price)
 
 sort(price, decreasing=TRUE)
 rev(sort(price))
 
+(data.frame(location[ordered.price], sorted.price))
+order(location)
+location[order(location)]
+(data.frame(sort(location), price[order(location)]))
 
 # 64/100
 city
 
 (view1 <- data.frame(location, price, rank.price))
 
-(view2 <- data.frame(sorted.price, ordered.price)) 
+(view2 <- data.frame(sorted.price, ordered.price, rank.price)) 
 
-view3 <- data.frame(location[ordered.price], price[ordered.price])) 
+(view3 <- data.frame(location[ordered.price], price[ordered.price])) 
 
 # 65/100
 y <- 1:20
@@ -1189,12 +1198,30 @@ Epanechnikov <- function(u){
 	return(ans)
 }
 
-par(mfrow=c(1,3))
+par(mfrow=c(2,3))
 x <- seq(-3, 3, 0.1)
 plot(x, Triangular(x), main="Triangular Kernel", type="l")
 plot(x, Gaussian(x), main="Gaussian Kernel", type="l")
 plot(x, Epanechnikov(x), main="Epanechnikov Kernel", type="l")
 
+
+my.I <- function(u, a) {
+  ifelse(abs(u) <= a, 1, 0)
+}
+
+my.T <- function(u, i=my.I) {
+  (1-abs(u)) * i(u, 1)
+}
+my.T(x)
+my.G <- function(u) {
+  exp(-(u^2)/2) / sqrt(2*pi)
+}
+my.G(x)
+
+my.E <- function(u, i=my.I) {
+  (3/(4*sqrt(5)))*(1-u^2/5)*i(u, sqrt(5))
+}
+my.E(x)
 
 # 67/100
 fh <- function(xi, x, h, kernel, n=150){
@@ -1206,7 +1233,6 @@ x <- iris[, 1]
 fh(x, 7, 0.2736, Triangular)
 fh(x, 7, 0.2736, Gaussian)
 fh(x, 7, 0.2736, Epanechnikov)
-
 
 # 68/100
 binomial <- function(k, n, p){
@@ -1231,7 +1257,7 @@ compute.mu.sigma <- function(pmf, parameter){
   cat("sigma2: ", sigma2, "\n")
 }
 
-compute.mu.sigma(pmf=binomial, parameter=c(4, 10, 0.5))
+compute.mu.sigma(pmf=binomial, parameter=list(c(1:10), 10, 0.5))
 
 
 # 69/100
@@ -1251,26 +1277,26 @@ compute.mu.sigma <- function(pmf, parameter){
   pmf.name <- deparse(substitute(pmf))
   mu <- sum(parameter$k * (do.call("pmf", parameter)))
   sigma2 <- sum((parameter$k - mu)^2 * do.call("pmf", parameter))
-  cat("distribution:?@", pmf.name, "\n")
+  cat("distribution:", pmf.name, "\n")
   cat("mu: ", mu, "\t sigma2:", sigma2, "\n" )
 }
 
 my.par <- list(k = c(0:10), n = 10, p = 0.6)
 compute.mu.sigma(pmf = binomial, parameter = my.par)
-distribution:?@ binomial 
-mu:  6   sigma2: 2.4 
+# distribution:  binomial 
+# mu:  6   sigma2: 2.4 
 my.par <- list(k = c(0:100), lambda = 4)
 compute.mu.sigma(pmf = poisson, parameter = my.par)
-distribution:?@ poisson 
-mu:  4   sigma2: 4 
+# distribution:  poisson 
+# mu:  4   sigma2: 4 
 my.par <- list(k = c(0:10000), p = 0.4)
 compute.mu.sigma(pmf = geometric, parameter = my.par)
 
 
 # 70/100
-as.numeric(factor(c(??a??, ??b??, ??c??)))
-as.numeric(c(??a??, ??b??, ??c??)) #don??t work
-
+str(factor(c("a", "b", "c")))
+as.numeric(factor(c("a", "b", "c")))
+as.numeric(c("a", "b", "c")) #don't work
 
 # 71/100
 (x <- sample(1:42, 6))
@@ -1283,15 +1309,15 @@ for(i in 1:5){
      assign(x.name, 1:i)
      cat(x.name, ": \t")
      cat(get(x.name), "\n")
- }
+}
 
 a <- 100
 (my.math <- c("3+4", "a/5"))
 eval(my.math)
 eval(parse(text=my.math[1]))
 plot.type <- c("plot", "hist", "boxplot")
-x <- rnorm(100)
 my.plot <- paste(plot.type, "(x)", sep="")
+x <- rnorm(100)
 eval(parse(text=my.plot))
 
 
