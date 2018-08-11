@@ -1,11 +1,32 @@
+install.packages("datasauRus")
+library(datasauRus)
+
+head(anscombe, 5)
+
+apply(anscombe, 2, mean)
+apply(anscombe, 2, sd)
+
+mapply(cor, anscombe[,1:4], anscombe[,5:8])
+mapply(function(x, y) lm(y~x)$coefficients, anscombe[,1:4], anscombe[,5:8])
+
+boxplot(anscombe)
+
+par(mfrow=c(2, 2))
+regplot <- function(x ,y) {
+  plot(y~x)
+  abline(lm(y~x), col="red")
+}
+
+mapply(regplot, anscombe[,1:4], anscombe[,5:8])
+
 # 14/208
 library(graphics)
-demo(graphics)#±`¨£¹Ï§Î
-demo(Hershey) #¦UºØ²Å¸¹
-demo(image) #image©Mcontours
-demo(Japanese) #¤é¥»¦r
-demo(persp) #¦±­±¹Ï
-demo(plotmath) #¼Æ¾Ç²Å¸¹
+demo(graphics)#å¸¸è¦‹åœ–å½¢
+demo(Hershey) #å„ç¨®ç¬¦è™Ÿ
+demo(image) #imageå’Œcontours
+demo(Japanese) #æ—¥æœ¬å­—
+demo(persp) #æ›²é¢åœ–
+demo(plotmath) #æ•¸å­¸ç¬¦è™Ÿ
 
 
 # 17/208
@@ -45,26 +66,27 @@ dev.off()
 
 # 23/208
 pdf("iris.pdf") 
-plot(iris[, 1:2], xlab="ªá¸°ªø", ylab="ªá¸°¼e", main="»ð§Àªá ´²§G¹Ï", col=iris[,5])
-text(6.7, 4, "³o¬O¤¤¤å")
+plot(iris[, 1:2], xlab="èŠ±è¼é•·", ylab="èŠ±è¼å¯¬", main="é³¶å°¾èŠ± æ•£ä½ˆåœ–", col=iris[,5])
+text(6.7, 4, "é€™æ˜¯ä¸­æ–‡")
 dev.off()
 
+##install.packages("showtext")
 library(showtext)
-font.add("msjh", "msjh.ttc") 
+font.add("msjh", ".msjh.ttf") 
 showtext.auto(enable=TRUE)
 
 
 # 24/208
 pdf("test.pdf", width=12, height=8)  
-par(family=¡¥msjh¡¦) ## ·L³n¥¿¶ÂÅé
+par(family="msjh") ## å¾®è»Ÿæ­£é»‘é«”
 par(mfrow=c(1,2), oma=c(2, 1, 2, 1))
 hist(iris[, 1])
-text(6, 20, "³o¸Ì¦³¤¤¤å¦r", col="green", cex=2)
+text(6, 20, "é€™è£¡æœ‰ä¸­æ–‡å­—", col="green", cex=2)
 plot(iris[, 1], iris[, 2], xaxt="n", bty="n", xlab="", xlim=c(0, 8), ylim=c(0, 5))
 axis(1, at=0:8 , labels=letters[1:9], tick=FALSE)
-text(2, 3, "§Ú¬O¤¤¤å", col="red", cex=2)
-title('¥D¼ÐÃD(family="fang")', family="fang", outer=TRUE,  line=-1, cex.main=2)
-mtext("³o¸Ì¤]¦³¤å¦r³é!", side=1, line=6, at=6, col="blue")
+text(2, 3, "æˆ‘æ˜¯ä¸­æ–‡", col="red", cex=2)
+title('ä¸»æ¨™é¡Œ(family="fang")', family="fang", outer=TRUE,  line=-1, cex.main=2)
+mtext("é€™è£¡ä¹Ÿæœ‰æ–‡å­—å–²!", side=1, line=6, at=6, col="blue")
 mycolor <- rainbow(100, alpha=0.6)[1:80]
 rasterImage(t(mycolor), 0, 0, 8, 1, interpolate=FALSE)
 dev.off()
@@ -109,7 +131,7 @@ plot(y, type="n") # none
 # 32/208
 attach(iris)
 plot(Sepal.Length, Petal.Length, xlim = c(-1, max(Sepal.Length)),
-ylim = c(-1, max(Petal.Length)))
+     ylim = c(-1, max(Petal.Length)))
 abline(lm(Petal.Length ~ Sepal.Length), col = "black")
 abline(h = 0, col = "grey")
 abline(v = 0, col = "grey")
@@ -189,15 +211,15 @@ text(1:10, rep(1.2, 10), labels=1:10)
 
 # 43/208
 colors()
-  [1] "white"                "aliceblue"            "antiquewhite"        
-  [4] "antiquewhite1"        "antiquewhite2"        "antiquewhite3"       
-  [7] "antiquewhite4"        "aquamarine"           "aquamarine1"         
- [10] "aquamarine2"          "aquamarine3"          "aquamarine4"         
- [13] "azure"                "azure1"               "azure2"              
- [16] "azure3"               "azure4"               "beige"               
- [19] "bisque"               "bisque1"              "bisque2"             
- [22] "bisque3"              "bisque4"              "black"               
- [25] "blanchedalmond"       "blue"                 "blue1"               
+[1] "white"                "aliceblue"            "antiquewhite"        
+[4] "antiquewhite1"        "antiquewhite2"        "antiquewhite3"       
+[7] "antiquewhite4"        "aquamarine"           "aquamarine1"         
+[10] "aquamarine2"          "aquamarine3"          "aquamarine4"         
+[13] "azure"                "azure1"               "azure2"              
+[16] "azure3"               "azure4"               "beige"               
+[19] "bisque"               "bisque1"              "bisque2"             
+[22] "bisque3"              "bisque4"              "black"               
+[25] "blanchedalmond"       "blue"                 "blue1"               
 .....
 
 [637] "turquoise2"           "turquoise3"           "turquoise4"          
@@ -286,7 +308,7 @@ obj <- list(x=x, y=y, z=z)
 image(obj, col=tim.colors(200), main="tim.colors(200)")
 image(obj, col=two.colors(), main="two.colors()")
 image(obj, col=two.colors(start="darkgreen", end="darkred", middle="black"), 
-+       main="two.colors()")
+      +       main="two.colors()")
 
 plot(x, y,  main="two.colors(alpha=.5)")
 image(obj, col=two.colors(alpha=.5), add=TRUE)
@@ -367,7 +389,7 @@ text(iris[,3], iris[,4], labels=my.label, cex=0.7)
 plot(iris[,3], iris[,4], type="n")
 my.label <- c(rep("a", 50), rep("b", 50), rep("c", 50))
 text(iris[,3], iris[,4], my.label, cex=0.7, 
-col=ifelse(iris[,1] > median(iris[,1]), "red", "blue"))
+     col=ifelse(iris[,1] > median(iris[,1]), "red", "blue"))
 
 
 # 57/208
@@ -405,7 +427,7 @@ plot(1:8, xaxt = "n",  xlab = "")
 axis(1, labels = FALSE)
 my.labels <- paste("Label", 1:8, sep = "-")
 text(1:8, par("usr")[3] - 0.25, srt = 45, adj = 1, 
-labels = my.labels, xpd = TRUE)
+     labels = my.labels, xpd = TRUE)
 mtext(1, text = "X Axis Label", line = 3)
 
 par("usr")
@@ -425,7 +447,7 @@ symbols(x = c(2, 6), y = c(2, 6), circles = c(1, 4), xlim=c(0, 10), ylim=c(0, 10
 plot(c(100, 250), c(300, 450), type = "n", xlab = "", ylab = "")
 i1 <- as.raster(matrix(0:1, ncol = 6, nrow = 7))
 rasterImage(i1, 180, 380, 220, 430, interpolate = FALSE)
- 
+
 i2 <- as.raster(matrix(colors()[1:100], ncol = 5))
 rasterImage(i2, 100, 300, 150, 400, interpolate = FALSE) 
 
@@ -446,8 +468,8 @@ Transformers.f <- Image(flip(Transformers))
 # convert RGB to grayscale
 rgb.weight <- c(0.2989, 0.587, 0.114)
 Transformers.gray <- rgb.weight[1] * imageData(Transformers.f)[,,1] + 
-rgb.weight[2] * imageData(Transformers.f)[,,2] + 
-rgb.weight[3] * imageData(Transformers.f)[,,3]
+  rgb.weight[2] * imageData(Transformers.f)[,,2] + 
+  rgb.weight[3] * imageData(Transformers.f)[,,3]
 dim(Transformers.gray)
 
 Transformers.gray[1:5, 1:5]
@@ -463,7 +485,7 @@ text(5, 9, expression(list({f * minute}(x), {f * second}(x))))
 text(5, 7, expression(hat(beta) == (X^t * X)^{-1} * X^t * y))
 text(5, 5, expression(bar(x) == sum(frac(x[i], n), i==1, n)))
 ex <- expression(f(x)==paste(frac(1, sigma*sqrt(2*pi)), " ",
-                            plain(e)^{frac(-(x-mu)^2, 2*sigma^2)}))
+                             plain(e)^{frac(-(x-mu)^2, 2*sigma^2)}))
 text(5, 3, labels = ex)
 
 
@@ -556,16 +578,16 @@ my.qqplot <- function(x){
   x.mean <- mean(x)
   x.var <- var(x)
   n <- length(x)
-
+  
   z <- (x-x.mean)/sqrt(x.var)
   z.mean <- mean(z)
   z.var <- var(z)
   z.sort <- sort(z)
-
+  
   k <- 1:n
   p <- (k-0.5)/n
   q <- qnorm(p)
-
+  
   plot(q, z.sort, xlim=c(-3, 3), ylim=c(-3, 3))
   title("QQ plot") 
   lines(q, q, col=2)
@@ -595,7 +617,7 @@ ycolors <- cellcycle.color[y.C+1]
 my.pch <- c(1:no.cluster)[y.C+1]    
 phase <- c("G1", "S", "S/G2", "G2/M", "M/G1")
 matplot(t(cell.xdata), lty=1, type = "l", ylab="gene expression", 
-            col=ycolors, xlab="time", main="Time series", xaxt="n")
+        col=ycolors, xlab="time", main="Time series", xaxt="n")
 time.label <- parse(text=paste("t[",0:p,"]",sep=""))        
 axis(1, 1:(p+1), time.label)
 legend("bottom", legend=phase, col=cellcycle.color, lty=1, horiz = T, lwd=2)
@@ -636,7 +658,7 @@ plot(x, y, col="red", xlab=xlab, ylab=ylab, main=title)
 range(x)
 range(y)
 plot(y~x, xlab=xlab, ylab=ylab, xlim=c(1.5,9), 
-ylim=c(1.5,9), type="n")
+     ylim=c(1.5,9), type="n")
 points(x[1:50], y[1:50], col="red")
 points(x[51:100], y[51:100], col="blue")
 points(x[101:150], y[101:150], col="green")
@@ -646,22 +668,22 @@ abline(lm(y~x))
 # 102/208
 data(airquality)
 head(airquality, 3)
-  
+
 aq <- airquality[airquality$Month 
-+       %in% c(7,8,9),]
+                 +       %in% c(7,8,9),]
 aq$Month <- factor(aq$Month, 
-+        labels = c("July", 
-+                   "August", 
-+                   "September"))
+                   +        labels = c("July", 
+                                       +                   "August", 
+                                       +                   "September"))
 attach(aq)
 radius <- sqrt(Wind/pi) 
 symbols(Day, Ozone, circles=radius,
-+          inches=0.1, fg="black", bg=as.integer(Month)+1, 
-+          xlab="Day of month", ylab="Ozone (ppb)",
-+          main="Air quality in New York by Day",
-+          ylim=c(0, 210))
+        +          inches=0.1, fg="black", bg=as.integer(Month)+1, 
+        +          xlab="Day of month", ylab="Ozone (ppb)",
+        +          main="Air quality in New York by Day",
+        +          ylim=c(0, 210))
 legend(-2, 200, legend=c("July", "August", "September"), 
-+        pch=21, pt.bg=2:4, col="black", pt.cex=2, horiz=T)
+       +        pch=21, pt.bg=2:4, col="black", pt.cex=2, horiz=T)
 x.loc <- rep(30, 3)
 y.loc <- seq(140, 180, length.out=3)
 s <- summary(radius)[c(1, 4, 6)]
@@ -767,15 +789,15 @@ y <- x^3-3*x
 plot(x, y, type="l")
 
 weibull <- function(alpha, beta, x){
-+   alpha * beta * (x^(alpha-1))
-+ }
- 
+  +   alpha * beta * (x^(alpha-1))
+  + }
+
 b <- c(1, 2, 4, 8)
 for(i in 1:length(b)) {
-+   curve(weibull(0.5, b[i], x), from=0, to=2, 
-+         add=(i!=1), 
-+         col=i, ylim=c(0, 50), main="alpha=.5")
-+ }
+  +   curve(weibull(0.5, b[i], x), from=0, to=2, 
+            +         add=(i!=1), 
+            +         col=i, ylim=c(0, 50), main="alpha=.5")
+  + }
 
 legend(1.5, 40, legend=b, col=1:length(b), lty=1)
 
@@ -894,7 +916,7 @@ head(mtcars[, 1:7])
 # 131/208
 palette(rainbow(12, s = 0.6, v = 0.75))
 stars(mtcars[, 1:7], len = 0.8, key.loc = c(12, 1.5),
-+       main = "Motor Trend Cars", draw.segments = TRUE)
+      +       main = "Motor Trend Cars", draw.segments = TRUE)
 
 
 # 132/208
@@ -933,14 +955,14 @@ library(GGally) # Extension to 'ggplot2'
 ggparcoord(data = iris, columns = 1:4, groupColumn = 5)
 ggparcoord(data = iris, columns = 1:4, groupColumn = 5, boxplot = T)
 ggparcoord(data = iris, columns = 1:4, groupColumn = 5, order = "anyClass",
-+ showPoints = TRUE)
+           + showPoints = TRUE)
 
 ggparcoord(data, columns = 1:ncol(data), 
-  groupColumn = NULL,
-  scale = "std", scaleSummary = "mean", centerObsID = 1,
-  missing = "exclude", order = columns, showPoints = FALSE,
-  splineFactor = FALSE, alphaLines = 1, boxplot = FALSE,
-  shadeBox = NULL, mapping = NULL, title = "")
+           groupColumn = NULL,
+           scale = "std", scaleSummary = "mean", centerObsID = 1,
+           missing = "exclude", order = columns, showPoints = FALSE,
+           splineFactor = FALSE, alphaLines = 1, boxplot = FALSE,
+           shadeBox = NULL, mapping = NULL, title = "")
 
 
 # 142/208
@@ -953,7 +975,7 @@ ploy <- function(x, y){x^2-x*y+y^2}
 x.grid <- seq(-3, 3, length=50)
 y.grid <- seq(-3, 3, length=50)
 z.grid <- outer(x.grid, y.grid, FUN=ploy)
-ploy.title <- paste("¤TºûªÅ¶¡´²¹Ï\n", "f(x, y) =x^2-xy+y^2")
+ploy.title <- paste("ä¸‰ç¶­ç©ºé–“æ•£åœ–\n", "f(x, y) =x^2-xy+y^2")
 persp(x.grid, y.grid, z.grid, main= ploy.title)
 
 
@@ -989,7 +1011,7 @@ x <- c(x, cos(temp))
 y <- c(y, sin(temp))
 z <- c(z, temp)
 color <- c(color, rep("red", length(temp)))
-  
+
 scatterplot3d(x, y, z, color, pch=20, zlim=c(-2, 10), main="scatterplot3d - 3")
 
 my.mat <- matrix(runif(25), nrow=5)
@@ -1052,7 +1074,7 @@ play3d(par3dinterp(userMatrix=list(M, rotate3d(M, pi/2, 1, 0, 0), rotate3d(M, pi
 # 151/208
 library(rgl)
 swissroll <- function(n, sigma=0.05){
-		 
+  
   angle <- (3*pi/2)*(1+2*runif(n)); 
   height <- runif(n);
   xdata <-  cbind(angle*cos(angle), height, angle*sin(angle))
@@ -1086,8 +1108,8 @@ o3 <- subdivision3d(o2)
 shade3d(translate3d(o3, 2, 0, 0), color="green")
 o4 <- subdivision3d(o3)
 shade3d(translate3d(o4, 6, 0, 0), color="yellow")
-shade3d(translate3d(dodecahedron3d(col = "cyan"), 6, 0, 0)) # ¤Q¤G­±Åé
- 
+shade3d(translate3d(dodecahedron3d(col = "cyan"), 6, 0, 0)) # åäºŒé¢é«”
+
 play3d(spin3d(), duration=10)
 
 
@@ -1101,20 +1123,20 @@ bbox3d(color=c("red", "black"), emission="gray", +        specular="yellow", sh
 aspect3d(1,1,1)
 
 lines3d(iris[c(1, 150), 1:3], col="purple", lwd=2)
- 
+
 shapes <- list(cube3d(), tetrahedron3d(), octahedron3d(), 
-+           icosahedron3d(), dodecahedron3d(), cuboctahedron3d())
+               +           icosahedron3d(), dodecahedron3d(), cuboctahedron3d())
 shapelist3d(shapes, x=1, y=1:6, z=1, size=0.3, col=1:6)
 aspect3d(1,1,1)
- 
+
 texts3d(x=2, y=6, z=6, texts="rgl Example", font=2, 
-+         color="blue", cex=2, family="serif")
- 
+        +         color="blue", cex=2, family="serif")
+
 fit <- lm(iris[,3] ~ iris[,1] + iris[,2])
 coefs <- coef(fit)
 planes3d(a=coefs[2], b=coefs[3], c=-1, d= coefs["(Intercept)"], 
-+          alpha = 0.5) 
- 
+         +          alpha = 0.5) 
+
 play3d(spin3d(axis = c(0, 0, 1), rpm = 20), duration = 4)
 
 
@@ -1127,7 +1149,7 @@ dim(animal)
 [1] 100   5
 attach(animal)
 head(animal, 3)
-      loc.x     loc.y number sex    index
+loc.x     loc.y number sex    index
 1  1.421804 0.1536418      4   1 7.571144
 2 86.589918 0.7205304      3   1 6.855152
 3 58.427946 2.1297322      2   0 7.526096 
@@ -1144,8 +1166,8 @@ sex.col <- ifelse(sex==0, rgb(0, 0, 1), rgb(1, 0, 0)) # males: blue, females: re
 z <- terrain[cbind(ceiling(loc.x), ceiling(loc.y*10/6))]
 alpha.index <- (index-min(index))/(max(index)-min(index))
 spheres3d(loc.x, loc.y, z + 0.5,
-+           radius=0.3*number, col=sex.col, 
-+           alpha=alpha.index)
+          +           radius=0.3*number, col=sex.col, 
+          +           alpha=alpha.index)
 detach(animal) 
 play3d(spin3d(), duration=10)
 
@@ -1214,15 +1236,15 @@ library(gridExtra) # install.packages("gridExtra")
 grid.arrange(grobs=myplots, ncol=no.data)
 
 myplots <- lapply(1:no.data, function(i){
-+   heatmap(simulated.data[[i]], main=paste(i))
-+   grid.echo()
-+   grid.grab()
-+ })
+  +   heatmap(simulated.data[[i]], main=paste(i))
+  +   grid.echo()
+  +   grid.grab()
+  + })
 
 arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
-  name = "arrange", as.table = TRUE, respect = FALSE, clip = "off",
-  nrow = NULL, ncol = NULL, widths = NULL, heights = NULL, top = NULL,
-  bottom = NULL, left = NULL, right = NULL, padding = unit(0.5, "line"))
+            name = "arrange", as.table = TRUE, respect = FALSE, clip = "off",
+            nrow = NULL, ncol = NULL, widths = NULL, heights = NULL, top = NULL,
+            bottom = NULL, left = NULL, right = NULL, padding = unit(0.5, "line"))
 
 grid.arrange(..., newpage = TRUE)
 
@@ -1286,10 +1308,10 @@ hv2 <- heatmap(cell.data, col = gbr, Colv=NA, Rowv=NULL,
 
 dd <- as.dendrogram(hclust(as.dist(1-cor(t(cell.data)))))
 hv3 <- heatmap(cell.data, col = gbr, Colv=NA, Rowv=dd,
-              RowSideColors = rc, 
-              ColSideColors = cc, margins = c(5,10),
-              scale = "row",
-              xlab = "Times", ylab =  "Genes",main = "Heatmap of Microarray Data")
+               RowSideColors = rc, 
+               ColSideColors = cc, margins = c(5,10),
+               scale = "row",
+               xlab = "Times", ylab =  "Genes",main = "Heatmap of Microarray Data")
 
 
 # 166/208
@@ -1318,9 +1340,9 @@ polygon(locations, col="lavender")
 
 # 171/208
 qplot(x, y = NULL, ..., data, facets = NULL, margins = FALSE,
-geom = "auto", stat = list(NULL), position = list(NULL), xlim = c(NA,
-NA), ylim = c(NA, NA), log = "", main = NULL,
-xlab = deparse(substitute(x)), ylab = deparse(substitute(y)), asp = NA)
+      geom = "auto", stat = list(NULL), position = list(NULL), xlim = c(NA,
+                                                                        NA), ylim = c(NA, NA), log = "", main = NULL,
+      xlab = deparse(substitute(x)), ylab = deparse(substitute(y)), asp = NA)
 
 library(ggplot2)
 qplot(Sepal.Length, Petal.Length, geom="point", 
@@ -1331,7 +1353,7 @@ qplot(Species, Sepal.Length, geom="boxplot",
 
 # 174/208
 ggplot(data = mpg) + 
-geom_point(mapping = aes(x = displ, y = hwy, color = class))
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
 
 mpg.df <- as.data.frame(mpg)
 attach(mpg.df)
@@ -1344,16 +1366,16 @@ detach(mpg.df)
 
 # 177/208
 GetMap(center = c(lat = 42, lon = -76), size = c(640, 640), destfile, 
-    zoom = 12, markers, path = "", span, frame, hl, sensor = "true", 
-    maptype = c("roadmap", "mobile", "satellite", "terrain", 
-        "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
-    format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
-    RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, 
-    verbose = 0)
+       zoom = 12, markers, path = "", span, frame, hl, sensor = "true", 
+       maptype = c("roadmap", "mobile", "satellite", "terrain", 
+                   "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
+       format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
+       RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, 
+       verbose = 0)
 
 library(RgoogleMaps)
 WorldMap <- GetMap(center=c(0,0), zoom =1, 
-destfile = "World1.png")
+                   destfile = "World1.png")
 
 
 # 178/208
@@ -1391,14 +1413,14 @@ bb = qbbox(my.lat, my.lon)
 print(bb)
 
 MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "my.png", maptype = "roadmap")
- 
+
 My.markers <- cbind.data.frame(lat = my.lat, lon = my.lon)
 tmp <- PlotOnStaticMap(MyMap, lat = My.markers[,"lat"], 
                        lon = My.markers[,"lon"], 
                        destfile = "my.png", cex=2.5, pch=18:10, col=1:3, add=F)
 TextOnStaticMap(MyMap, lat = My.markers[,"lat"]+0.01, 
                 lon = My.markers[,"lon"], 
-                labels=c("§Ú®a", "´_¿³°ª¤¤", "°ê¥ß»O¥_¤j¾Ç¤T®l®Õ°Ï"),  add=T)
+                labels=c("æˆ‘å®¶", "å¾©èˆˆé«˜ä¸­", "åœ‹ç«‹è‡ºåŒ—å¤§å­¸ä¸‰å³½æ ¡å€"),  add=T)
 
 library(EBImage)
 ntpu <- readImage("NTPUcolorlogo.jpg")
@@ -1419,7 +1441,7 @@ tm <- floor((100-1)/(max(x)-min(x))*(x-min(x)) + 1)
 used.col <- heat.colors(100)[tm]
 points(data$lon, data$lat, pch=15, col=used.col)
 text(data$lon, data$lat, labels=row.names(data))
-title("20140714, ±ß¤W8®É¦U¦a·Å«×")
+title("20140714, æ™šä¸Š8æ™‚å„åœ°æº«åº¦")
 par(mar=c(1,1,1,1))
 image(t(matrix(c(1:100), ncol=1)), 
       col=heat.colors(100), xaxt="n", yaxt="n")
@@ -1438,10 +1460,10 @@ head(states.map, 3)
 tail(states.map, 3)
 
 ggplot(states.map, aes(x=long, y=lat, group=group)) + 
-geom_polygon(fill="white", colour="black")
+  geom_polygon(fill="white", colour="black")
 
 ggplot(states.map, aes(x=long, y=lat, group=group)) +
-geom_path() + coord_map("mercator")
+  geom_path() + coord_map("mercator")
 
 
 # 184/208
@@ -1449,8 +1471,8 @@ world.map <- map_data("world")
 sort(unique(world.map$region)) 
 east.asia <- map_data("world", region=c("Japan", "China", "North Korea", "South Korea"))
 ggplot(east.asia, aes(x=long, y=lat, group=group, fill=region)) +
-geom_polygon(colour="black") +
-scale_fill_brewer(palette="Set2")
+  geom_polygon(colour="black") +
+  scale_fill_brewer(palette="Set2")
 
 
 # 185/208
@@ -1463,7 +1485,7 @@ library(maps)
 library(ggmap)
 states.map <- map_data("state")
 head(states.map, 3)
-      
+
 crime.map <- merge(states.map, crimes, by.x="region", by.y="state")
 head(crime.map, 3)
 
@@ -1472,17 +1494,17 @@ head(crime.map, 3)
 library(plyr) 
 crime.map <- arrange(crime.map, group, order)
 head(crime.map, 3)
-  
+
 ggplot(crime.map, aes(x=long, y=lat, group=group, fill=Assault)) +
-       geom_polygon(colour="black") + 
-       coord_map("polyconic")
+  geom_polygon(colour="black") + 
+  coord_map("polyconic")
 
 
 # 187/208
 ggplot(crime.map, aes(x=long, y=lat, group=group, fill=Assault)) +
-       geom_polygon(colour="black") + coord_map("polyconic") +
-       scale_fill_gradient2(low="blue", mid="grey", high="red",
-       midpoint=median(crimes$Assault)) 
+  geom_polygon(colour="black") + coord_map("polyconic") +
+  scale_fill_gradient2(low="blue", mid="grey", high="red",
+                       midpoint=median(crimes$Assault)) 
 
 
 # 188/208

@@ -52,7 +52,15 @@ myCor <- function(x, y) {
 
 myCor(x, y)
 
-
+# write excel sample
+xlsx_file <- "mydata.xlsx"
+cname <- c("No", "Department", "ID", "Name", "Quiz1", "Quiz2", "Quiz3", "Quiz4", "Mean", "MidCore1", "MidCore2", "MidSum")
+# read excel file
+calculus <- read_excel(path = xlsx_file, sheet = "calculus", na = "", col_names =  cname, skip = 3)
+# replace NA with 0
+calculus[is.na(calculus)] <- 0
+# write excel
+write_xlsx(calculus, path = "caculus.xlsx")
 
 
 # 曹維中 先生，您好：

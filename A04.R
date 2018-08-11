@@ -1351,14 +1351,12 @@ stats:::princomp.default
 
 
 # 89/100
-cat("?Ĥ@?D")
 string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
 gregexpr("[(]", string)[[1]]
 length(gregexpr("[(]", string)[[1]])
 
 
 # 90/100
-cat("?Ĥ@?D\n")
 string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
 left.num <- length(gregexpr("[(]", string)[[1]])
 cat("left.num: ", left.num, "\n")
@@ -1373,10 +1371,9 @@ if(left.num== right.num){
 
 # 91/100
 ex1 <- function(){
-    cat("?Ĥ@?D\n")
-
+  
     #string <- "((1+2)*(3+4)*(5+6))/(7+8)" 
-    cat("???J?]?t???k?p?A?????r??(?̪???40?r??)?A?ЧP?_?O?_???k?p?A???t?勵?T")    
+    cat("請輸入包含左右小括號之字串(最長為40字元): ")
     string <- scan(what="character", nmax=1, quiet=TRUE)
 
     left.num <- length(gregexpr("[(]", string)[[1]])
@@ -1395,27 +1392,25 @@ ex1()
 
 # 92/100
 ex1 <- function(){
-   cat("?Ĥ@?D\n")
-   cat("########################################\n")
-   cat("# ???J?]?t???k?p?A?????r??(?̪???40?r??)?A   #\n")
-   cat("# ?ЧP?_?O?_???k?p?A???t?勵?T              #\n")
-   cat("# ?Ҧp???J?G {\tt ((1+2)-3)*(4/5)}       #\n")
-   cat("########################################\n")
-
-   ##???J
+  cat("######################################################\n")
+  cat("# 第一題                                             #\n")
+  cat("# 輸入包含左右小括號之字串(最長為40字元)            #\n")
+  cat("# 請判斷是否左右小括號配對正確                      #\n")
+  cat("# 例如輸入: ((1+2)-3)*(4/5)                          #\n")
+  cat("######################################################\n")
+  
+   ##輸入
+   cat("請輸入包含左右小括號之字串(最長為40字元): ")
    string <- scan(what="character", nmax=1, quiet=TRUE)
 
-   ##???X"(" ")"?A?íp??
+   ##找出"(" ")"，並計數
    left.num <- length(gregexpr("[(]", string)[[1]])
    right.num <- length(gregexpr("[)]", string)[[1]])
 
-   ##?P?_?O?_?۵?
    if(left.num== right.num){
-     ##?O???ܡA???XOK
      cat("OK")
    }
    else{
-     ##???O???ܡA???XNOT OK
      cat("Not OK")
    }
 }
@@ -1425,8 +1420,8 @@ while(Y.or.N=="y"){
    ex1()
    cat("?~???m?߳o?@?D(Y/N): ")
    Y.or.N <- scan(what="character", nmax=1, quiet=TRUE)
-   if(Y.or.N!=??y" & Y.or.N!=??n"){
-      cat("???J???~?A?A???J?@?? ")
+   if(Y.or.N!="y" & Y.or.N!="n"){
+      cat("輸入錯誤!\n")
    }
 }
 
