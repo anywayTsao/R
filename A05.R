@@ -158,8 +158,16 @@ y <- rnorm(12)
 plot(x, y, main="arrows and segments")
 arrows(x[1], y[1], x[2], y[2], col= "black", length=0.2)
 segments(x[3], y[3], x[4], y[4], col= "red")
-segments(x[3:4], y[3:4], x[5:6], y[5:6], col= c("blue", "green"))
 
+segments(x[4:3], y[4:3], col= "blue")
+
+segments(x[4:3], y[4:3], x[6:5], y[6:5], col= c("blue", "green"))
+segments(x[3:4], y[3:4], x[5:6], y[5:6], col= c("blue", "green"))
+segments(0.3, 0.5, 0.8, 0.0, col="gray")
+segments(c(0.3, 0.5), c(0.8, 0.0), c(0.5, 0.5), c(0.8, -1.5), col=c("black", "black"))
+
+abline(v = seq(0.2:0.8, by = 0.2), col = "grey", lty = "l")
+abline(h = seq(-1.5:0.5, by = 0.5), col = "grey", lty = "l")
 
 # 37/208
 par(c("col", "lty"))
@@ -203,6 +211,18 @@ myplot(3)
 layout(mat2, widths=c(3, 1), heights=c(1, 3))
 myplot(3)
 
+# 41/208
+(my.mat <- matrix(c(0, 1, 1, 0, 2, 3, 3, 4, 0, 5, 5, 0) , 3, 4, byrow = T))
+layout(my.mat)
+
+attach(iris)
+
+hist(Sepal.Length)
+boxplot(Sepal.Length)
+plot(Sepal.Length, Sepal.Width)
+hist(Sepal.Width)
+boxplot(Sepal.Width, horizontal = F)
+
 
 # 42/208
 plot(1:10, rep(1, 10), pch=20, col=1:10, cex=5, xlab="", ylab="")
@@ -211,27 +231,27 @@ text(1:10, rep(1.2, 10), labels=1:10)
 
 # 43/208
 colors()
-[1] "white"                "aliceblue"            "antiquewhite"        
-[4] "antiquewhite1"        "antiquewhite2"        "antiquewhite3"       
-[7] "antiquewhite4"        "aquamarine"           "aquamarine1"         
-[10] "aquamarine2"          "aquamarine3"          "aquamarine4"         
-[13] "azure"                "azure1"               "azure2"              
-[16] "azure3"               "azure4"               "beige"               
-[19] "bisque"               "bisque1"              "bisque2"             
-[22] "bisque3"              "bisque4"              "black"               
-[25] "blanchedalmond"       "blue"                 "blue1"               
-.....
+# [1] "white"                "aliceblue"            "antiquewhite"        
+# [4] "antiquewhite1"        "antiquewhite2"        "antiquewhite3"       
+# [7] "antiquewhite4"        "aquamarine"           "aquamarine1"         
+# [10] "aquamarine2"          "aquamarine3"          "aquamarine4"         
+# [13] "azure"                "azure1"               "azure2"              
+# [16] "azure3"               "azure4"               "beige"               
+# [19] "bisque"               "bisque1"              "bisque2"             
+# [22] "bisque3"              "bisque4"              "black"               
+# [25] "blanchedalmond"       "blue"                 "blue1"               
+# .....
 
-[637] "turquoise2"           "turquoise3"           "turquoise4"          
-[640] "violet"               "violetred"            "violetred1"          
-[643] "violetred2"           "violetred3"           "violetred4"          
-[646] "wheat"                "wheat1"               "wheat2"              
-[649] "wheat3"               "wheat4"               "whitesmoke"          
-[652] "yellow"               "yellow1"              "yellow2"             
-[655] "yellow3"              "yellow4"              "yellowgreen"    
+# [637] "turquoise2"           "turquoise3"           "turquoise4"          
+# [640] "violet"               "violetred"            "violetred1"          
+# [643] "violetred2"           "violetred3"           "violetred4"          
+# [646] "wheat"                "wheat1"               "wheat2"              
+# [649] "wheat3"               "wheat4"               "whitesmoke"          
+# [652] "yellow"               "yellow1"              "yellow2"             
+# [655] "yellow3"              "yellow4"              "yellowgreen"    
 
 rgb(1,0,0) 
-[1] "#FF0000"
+# [1] "#FF0000"
 
 
 # 44/208
@@ -288,8 +308,7 @@ n <- 10
 
 rgb(col.a/255)
 
-col.b <- colorRampPalette(c("red", "green"))(n)  # (n)
-col.b
+(col.b <- colorRampPalette(c("red", "green"))(n))  # (n)
 
 col2rgb(col.b)
 
@@ -305,10 +324,10 @@ x <- 1:20
 y <- 1:20
 z <- outer(x, rep(1,20), "+")
 obj <- list(x=x, y=y, z=z)
-image(obj, col=tim.colors(200), main="tim.colors(200)")
+image(obj, col=tim.colors(20), main="tim.colors(200)")
 image(obj, col=two.colors(), main="two.colors()")
 image(obj, col=two.colors(start="darkgreen", end="darkred", middle="black"), 
-      +       main="two.colors()")
+      main="two.colors()")
 
 plot(x, y,  main="two.colors(alpha=.5)")
 image(obj, col=two.colors(alpha=.5), add=TRUE)
@@ -318,6 +337,7 @@ image(obj, col= coltab, main="designer.colors()")
 
 
 # 51/208
+install.packages("fields")
 library(fields)
 cor.col <- two.colors(start="blue", middle="white", end="red") 
 length(cor.col)
@@ -330,8 +350,9 @@ set.seed(12345)
 x <- matrix(rnorm(n*p), ncol=p)
 rx <- cor(x)
 rx
+# mapping current data range to color range (0~255)
 #(-1, 0, 1) => (0, 1, 2) => (1, 128, 255)
-range.col <- floor((1+range(rx))*127+1) 
+range.col <- floor((1+range(rx))*127+1)
 range.col
 
 par(mfrow=c(1, 2))
@@ -339,7 +360,7 @@ image(t(rx)[,p:1], main="cor(x)", col=cor.col, xaxt="n", yaxt="n")
 axis(3, at=seq(0, 1, length.out=4), labels=paste0("x", 1:p))
 axis(2, at=seq(0, 1, length.out=4), labels=paste0("x", p:1), las=1)
 
-image(t(rX)[,p:1], main="cor(x)", col=cor.col[range.col[1]: range.col[2]], , xaxt="n", yaxt="n")
+image(t(rx)[,p:1], main="cor(x)", col=cor.col[range.col[1]: range.col[2]], xaxt="n", yaxt="n")
 axis(3, at=seq(0, 1, length.out=4), labels=paste0("x", 1:p))
 axis(2, at=seq(0, 1, length.out=4), labels=paste0("x", p:1), las=1)
 
@@ -352,11 +373,13 @@ axis(1, at=x, labels=round(seq(-1, 1, length.out=20), 2), las=2)
 
 
 # 52/208
+install.packages("corrplot")
 library(corrplot)
 # par(mar = rep(0,4))
 plot(0, xlim = c(0, 3), ylim = c(0, 1), type = "n")
 colorlegend(rainbow(100), 0:9)
 
+# color seq, label, position
 colorlegend(heat.colors(100), LETTERS[1:12], xlim = c(1, 2))
 colorlegend(terrain.colors(100), 0:9, ratio.colbar = 0.6,
             lim.segment = c(0, 0.6), xlim = c(2, 3), align = "l")
@@ -411,14 +434,21 @@ legend(5, 0.6, legend=c("setosa","versicolor", "virginica"), pch = "abc",
 # 60/208
 x <- seq(-pi, pi, len = 65)
 plot(x, sin(x), type = "l", ylim = c(-1.2, 1.8), col = 3, lty = 2)
+# col : color p.42
+# lty : line type p.54
 points(x, cos(x), pch = 3, col = 4)
+# pch : point character p.58
 lines(x, tan(x), type = "b", lty = 1, pch = 4, col = 6)
+# type : p.47
 legend(-1, 1.9, c("sin", "cos", "tan"), col = c(3,4,6), text.col = "green4",      
        lty = c(2, -1, 1), pch = c(-1, 3, 4), bg = 'gray90')
 
 
 # 62/208
 plot(1:7, rnorm(7), xaxt = "n", frame = FALSE)
+# xaxt : x 軸不要畫
+# frame : 方框不要
+# axis arguents 1 => 1234 下左上右
 axis(1, 1:7, LETTERS[1:7], col = "green")
 axis(3, 1:7, paste("test", LETTERS[1:7]), col.axis = "blue", las=2)
 axis(4, lty=2, lwd = 2, las=2)
@@ -426,10 +456,10 @@ axis(4, lty=2, lwd = 2, las=2)
 plot(1:8, xaxt = "n",  xlab = "")
 axis(1, labels = FALSE)
 my.labels <- paste("Label", 1:8, sep = "-")
-text(1:8, par("usr")[3] - 0.25, srt = 45, adj = 1, 
-     labels = my.labels, xpd = TRUE)
+text(1:8, par("usr")[3] - 0.25, srt = 45, adj = 2, 
+     labels = my.labels, xpd = F)
 mtext(1, text = "X Axis Label", line = 3)
-
+# mtext : margin text
 par("usr")
 
 
@@ -454,14 +484,16 @@ rasterImage(i2, 100, 300, 150, 400, interpolate = FALSE)
 
 # 65/208
 install.packages(c("tiff", "jpeg", "png", "fftwtools"), repos="http://cran.csie.ntu.edu.tw")
-library(EBImage) # (Repositories: BioC Software)
-Transformers <- readImage("Transformers07.jpg")
+#library(EBImage) # (Repositories: BioC Software)
+#Transformers <- readImage("Transformers07.jpg")
+library(jpeg)
+Transformers <- readJPEG("Transformers07.jpg")
 (dims <- dim(Transformers))
 Transformers
 
 plot(c(0, dims[1]), c(0, dims[2]), type='n', xlab="", ylab="")
-rasterImage(Transformers, 0, 0, dims[1], dims[2])
-
+rasterImage(Transformers, 50, 50, 250, 280)
+text("HHHHHH", x = 150, y = 200, col = 7)
 
 # 66/208
 Transformers.f <- Image(flip(Transformers))
@@ -508,6 +540,14 @@ range(iris[,1])
 hist(iris[,1], breaks=seq(3.5, 8.5, length=50),main=title, xlab=lab)
 hist(iris[,1], breaks=seq(3.5, 8.5, length=50),main=title, xlab=lab, pro=T)
 
+par(mfrow = 1:2)
+
+head(iris)
+plot(0, xlim=c(0,150), ylim=c(0, 8), type = "n", 
+     xlab = "", ylab = "", main = "Sepal Length")
+# tapply(iris[,1], iris[,5], points, col = c(1,2,3))
+points(x = iris[,1], col = rep(2:4, times = c(50, 50, 50)))
+
 
 # 76/208
 dotchart(VADeaths, main = "Death Rates in Virginia - 1940")
@@ -525,15 +565,32 @@ stripchart(decrease~treatment, xlab="decrease", ylab="treatment")
 
 
 # 80/208
-plot(density(iris$Sepal.Length))
+plot(density(iris$Sepal.Length), main = "Sepal.Length")
+lines(density(iris$Sepal.Length, kernel = "epanechnikov"), lty = 2)
+
+hist(iris$Sepal.Length, main = title, xlab=lab, col="green", pro=T)
+lines(density(iris$Sepal.Length, kernel = "gaussian"), lty = 1, col = 2)
+
+plot(density(iris$Sepal.Width), main = "Sepal.Width")
+lines(density(iris$Sepal.Width, kernel = "epanechnikov"), lty = 2)
+
+x <- iris$Sepal.Length
+plot(density(x), ylim = c (0, 0.6))
+m <- mean(x)
+s <- sd(x)
+range(x)
+v <- seq(3, 8, 0.1)
+lines(v, dnorm(v, mean=m, sd=s), col="red", lty=2, lwd=2)
 
 
+# dnorm => density of norm given mean and standard deviation!!
 # 81/208
 hist(iris[,1], breaks=15, main=title, xlab=lab, col="green", pro=T)
 lines(density(iris[,1], width=0.6, n=200))
 
 
 # 84/208
+x <- seq(-4, 4, 0.01)
 plot(x, dnorm(x), main="standard normal", type="l", lwd=2, xaxt = "n")
 p <- c(0.05, seq(0.1, 0.9, 0.1), 0.95)
 q <- round(qnorm(p), 2)
@@ -561,7 +618,7 @@ qqline(x)
 
 qqplot(x, rnorm(300)) 
 qqline(x, col = 2)
-qqplot(scale(x), rnorm(300)) 
+qqplot(scale(x), rnorm(300)) # scale => 將x做標準化後使尺度一樣才可以qqplot
 qqline(scale(x), col = 2)
 
 
@@ -578,14 +635,14 @@ my.qqplot <- function(x){
   x.mean <- mean(x)
   x.var <- var(x)
   n <- length(x)
-  
-  z <- (x-x.mean)/sqrt(x.var)
+  # 1. 將隨機樣本標準化並排序
+  z <- (x-x.mean)/sqrt(x.var) # 標準化
   z.mean <- mean(z)
   z.var <- var(z)
-  z.sort <- sort(z)
+  z.sort <- sort(z) # 排序
   
-  k <- 1:n
-  p <- (k-0.5)/n
+  k <- 1:n # 產生長度與資料量一樣的數列
+  p <- (k-0.5)/n # 將連續數列做修正並將之轉換為機率
   q <- qnorm(p)
   
   plot(q, z.sort, xlim=c(-3, 3), ylim=c(-3, 3))
@@ -593,6 +650,8 @@ my.qqplot <- function(x){
   lines(q, q, col=2)
 }
 
+k <- 1:10
+n <- 10
 
 # 95/208
 data(UKLungDeaths) # total, male, female death
