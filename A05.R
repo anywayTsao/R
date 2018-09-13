@@ -606,7 +606,7 @@ text(-1.6, 0.06, "10%", col="red")
 
 
 # 87/208
-par(mfrow = c(1, 2))
+par(mfrow = c(2, 2))
 set.seed(12345); 
 n <- 100; mu <- 0.5; sigma <- 0.15
 x <- rnorm(n, mu, sigma)
@@ -655,6 +655,9 @@ n <- 10
 
 # 95/208
 data(UKLungDeaths) # total, male, female death
+head(ldeaths)
+head(mdeaths)
+head(fdeaths)
 ts.plot(ldeaths, mdeaths, fdeaths, xlab="year", ylab="deaths", lty=c(1:3))
 
 data(sunspots)
@@ -666,21 +669,22 @@ is.ts(sunspots)
 # 96/208
 cell.raw <- read.table("trad_alpha103.txt", row.names=1, header=T)
 head(cell.raw)
-cell.xdata <- t(scale(t(cell.raw[,2:19]), center=T, scale=T))    
+cell.xdata <- t(scale(t(cell.raw[,2:19]), center=T, scale=T)) # scale(): by variable to mean 0
 y.C <-  as.integer(cell.raw[,1])
 table(y.C)
 no.cluster <- length(unique(y.C))            
 p <- ncol(cell.raw) -1
 cellcycle.color <- c("darkgreen", "blue", "red", "gray50", "orange")
 ycolors <- cellcycle.color[y.C+1]
-my.pch <- c(1:no.cluster)[y.C+1]    
+#my.pch <- c(1:no.cluster)[y.C+1]    
 phase <- c("G1", "S", "S/G2", "G2/M", "M/G1")
 matplot(t(cell.xdata), lty=1, type = "l", ylab="gene expression", 
         col=ycolors, xlab="time", main="Time series", xaxt="n")
 time.label <- parse(text=paste("t[",0:p,"]",sep=""))        
 axis(1, 1:(p+1), time.label)
 legend("bottom", legend=phase, col=cellcycle.color, lty=1, horiz = T, lwd=2)
-
+head(cell.xdata)
+#par(mfrow = c(1, 1))
 
 
 # 97/208
@@ -690,6 +694,7 @@ names(pie.sales) <- c("Blueberry", "Cherry", "Apple", "Boston Cream", "Other", "
 
 pie(pie.sales) # default colours
 
+par(mfrow = c(1, 1))
 pie(pie.sales, col = c("purple", "violetred1", "green3", "cornsilk", "cyan", "white"))
 pie(pie.sales, col = gray(seq(0.4,1.0,length=6)))
 pie(pie.sales, clockwise=TRUE, main="pie with clockwise=TRUE")
@@ -697,6 +702,8 @@ pie(rep(1,200), labels="", col=rainbow(200), border=NA, main = "Rainbow Pie")
 
 
 # 98/208
+install.packages("plotrix")
+install.packages("survival")
 library(plotrix)
 library(survival)
 head(veteran)
@@ -704,7 +711,6 @@ head(veteran)
 slices <- summary(veteran$celltype)
 p <- floor(100*slices/sum(slices))
 pie3D(slices, labels=paste0(names(slices), " (",p, "%)"), explode=0.1)
-
 
 # 100/208
 xlab <- names(iris)[1]
@@ -727,22 +733,19 @@ abline(lm(y~x))
 # 102/208
 data(airquality)
 head(airquality, 3)
-
-aq <- airquality[airquality$Month 
-                 +       %in% c(7,8,9),]
-aq$Month <- factor(aq$Month, 
-                   +        labels = c("July", 
-                                       +                   "August", 
-                                       +                   "September"))
+# get the data in summer, month in 7, 8, 9
+aq <- airquality[airquality$Month %in% c(7,8,9),]
+aq$Month <- factor(aq$Month, labels = c("July", "August", "September"))
 attach(aq)
-radius <- sqrt(Wind/pi) 
+radius <- sqrt(Wind/pi) # 求風速轉換成圓形之面積
+length(radius)
 symbols(Day, Ozone, circles=radius,
-        +          inches=0.1, fg="black", bg=as.integer(Month)+1, 
-        +          xlab="Day of month", ylab="Ozone (ppb)",
-        +          main="Air quality in New York by Day",
-        +          ylim=c(0, 210))
+                  inches=0.1, fg="black", bg=as.integer(Month)+1, 
+                  xlab="Day of month", ylab="Ozone (ppb)",
+                  main="Air quality in New York by Day",
+                  ylim=c(0, 210))
 legend(-2, 200, legend=c("July", "August", "September"), 
-       +        pch=21, pt.bg=2:4, col="black", pt.cex=2, horiz=T)
+               pch=21, pt.bg=2:4, col="black", pt.cex=2, horiz=T)
 x.loc <- rep(30, 3)
 y.loc <- seq(140, 180, length.out=3)
 s <- summary(radius)[c(1, 4, 6)]
@@ -821,7 +824,8 @@ coplot(Wind ~ Temp | Ozone, data = airquality)
 
 
 # 108/208
-head(ChickWeight, 3)
+head(ChickWeight)
+summary(ChickWeight)
 coplot(weight ~ Time | Chick * Diet, type = "l", data = ChickWeight)
 
 table(ChickWeight$Chick, ChickWeight$Diet)
@@ -848,15 +852,15 @@ y <- x^3-3*x
 plot(x, y, type="l")
 
 weibull <- function(alpha, beta, x){
-  +   alpha * beta * (x^(alpha-1))
-  + }
+     alpha * beta * (x^(alpha-1))
+}
 
 b <- c(1, 2, 4, 8)
 for(i in 1:length(b)) {
-  +   curve(weibull(0.5, b[i], x), from=0, to=2, 
-            +         add=(i!=1), 
-            +         col=i, ylim=c(0, 50), main="alpha=.5")
-  + }
+     curve(weibull(0.5, b[i], x), from=0, to=2, 
+                     add=(i!=1), 
+                     col=i, ylim=c(0, 50), main="alpha=.5")
+}
 
 legend(1.5, 40, legend=b, col=1:length(b), lty=1)
 
@@ -877,6 +881,7 @@ Ozone <- airquality$Ozone[id==F]
 Temp <- airquality$Temp[id==F]
 
 plot(Ozone~Temp, main="non-linear parametric curves 1")
+plot(Temp, Ozone, main="non-linear parametric curves 1")
 model1 <- nls(Ozone~a+b*Temp+c*Temp*Temp, start=list(a=1, b=1, c=1))
 range(Temp)
 xv <- seq(55, 100, 1)
@@ -940,6 +945,9 @@ title(main = "Death Rates in Virginia", font.main = 4)
 pairs(iris[,1:4], col=as.integer(iris[,5])+1)
 pairs(iris[,1:4], col=as.integer(iris[,5])+1, panel=panel.smooth)
 
+# 123/208
+#, diag.panel = hist
+pairs(x = iris[,1:4], col=as.integer(iris[,5])+1, panel=panel.smooth)
 
 # 124/208
 stem(iris[,1])
@@ -951,7 +959,7 @@ dim(sines)
 sines
 matplot(sines, pch = 1:4, type = "o", col = rainbow(ncol(sines)), main="ex1")
 matplot(sines, pch = 21:23, type = "b", col = 2:5, bg= 2:5, main="ex2")
-
+matplot(sines, pch = 21:23, type = "b", col = 2:5, main="ex3")
 
 # 127/208
 locations <- locator(6)
@@ -961,6 +969,9 @@ xv <- seq(-3, 3, 0.01)
 yv <- dnorm(xv)
 plot(xv, yv, type="l")
 
+# polygon(c(xv[xv<=1], 1), c(yv[xv<=1], yv[xv==-3]), col="blue")
+# polygon(c(-1 , xv[xv>=-1 & xv<=1], 1), c(yv[xv==-3], yv[xv>=-1 & xv<=1], yv[xv==-3]), col="blue")
+# abline(v = 0, col = "gray60")
 polygon(c(xv[xv <= -1]), c(yv[xv <= -1]), col="blue")
 
 x11()
@@ -1013,8 +1024,7 @@ parcoord(iris[,1:4], col=as.integer(iris[,5])+1, var.label = T)
 library(GGally) # Extension to 'ggplot2'
 ggparcoord(data = iris, columns = 1:4, groupColumn = 5)
 ggparcoord(data = iris, columns = 1:4, groupColumn = 5, boxplot = T)
-ggparcoord(data = iris, columns = 1:4, groupColumn = 5, order = "anyClass",
-           + showPoints = TRUE)
+ggparcoord(data = iris, columns = 1:4, groupColumn = 5, order = "anyClass", showPoints = TRUE)
 
 ggparcoord(data, columns = 1:ncol(data), 
            groupColumn = NULL,
@@ -1057,12 +1067,19 @@ x <- c(rep(1, 50) %*% t(cos(temp)))
 y <- c(cos(temp) %*% t(sin(temp)))
 z <- c(sin(temp) %*% t(sin(temp)))
 
+par(mfrow=c(2,2))
+
 scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue", col.grid="lightblue", 
               main="scatterplot3d - 2.1", pch=20, cex.symbols=0.5)
 
 scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue", col.grid="lightblue", 
-              main="scatterplot3d - 2.2", pch=20, cex.symbols=0.5, angle= 20)
+              main="scatterplot3d - 2.2", pch=20, cex.symbols=0.5, angle= 45)
 
+scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue", col.grid="lightblue", 
+              main="scatterplot3d - 2.3", pch=20, cex.symbols=0.5, angle= 90)
+
+scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue", col.grid="lightblue", 
+              main="scatterplot3d - 2.4", pch=20, cex.symbols=0.5, angle= 135)
 
 # 147/208
 temp <- seq(-10, 10, 0.01)
@@ -1100,7 +1117,13 @@ s <- iris$Species
 
 par(mfrow = c(1,3), mai = c(0.3, 0.3, 0.3, 0.3)) 
 scatter3D(x, y, z)
-scatter3D(x, y, z, pch = 18, clab = c("Sepal", "Width (cm)"), main = "Iris data",           xlab = "Sepal.Length", zlab = "Petal.Length", ylab = "Sepal.Width")
+scatter3D(x, y, z, 
+          pch = 18, 
+          clab = c("Sepal", "Width (cm)"), 
+          main = "Iris data", 
+          xlab = "Sepal.Length", 
+          zlab = "Petal.Length", 
+          ylab = "Sepal.Width")
 scatter3D(x, y, z, colvar = as.integer(s), col = "blue", pch = 19, cex = 1)
 
 
@@ -1119,6 +1142,7 @@ text3D(x, y, z, labels = as.integer(s), colvar = w, bty = "b2")
 
 
 # 150/208
+install.packages("rgl")
 library(rgl)
 open3d()
 x <- sort(rnorm(1000))
@@ -1202,16 +1226,16 @@ play3d(spin3d(axis = c(0, 0, 1), rpm = 20), duration = 4)
 # 154/208
 terrain <- as.matrix(read.table("terrain_data.txt", header=F))
 dim(terrain)
-[1] 100 100
+# [1] 100 100
 animal <- read.table("animal_data.txt", header=T)
 dim(animal)
-[1] 100   5
+# [1] 100   5
 attach(animal)
 head(animal, 3)
-loc.x     loc.y number sex    index
-1  1.421804 0.1536418      4   1 7.571144
-2 86.589918 0.7205304      3   1 6.855152
-3 58.427946 2.1297322      2   0 7.526096 
+# loc.x     loc.y number sex    index
+# 1  1.421804 0.1536418      4   1 7.571144
+# 2 86.589918 0.7205304      3   1 6.855152
+# 3 58.427946 2.1297322      2   0 7.526096 
 terrain.scale <- floor((terrain - min(terrain))/(max(terrain) - min(terrain))*99)+1
 terrain.color <- terrain.colors(100)[terrain.scale] 
 terrain.color[terrain==0] <- rgb(0, 0, 1) # set color for river
@@ -1288,17 +1312,17 @@ no.data <- 4
 random.data <- function() { matrix(sample(1:100), nrow=10, ncol=10) }
 simulated.data <- replicate(no.data, random.data(), simplify = FALSE)
 class(simulated.data) # simplify = FALSE: "list"; ow. "array"
-[1] "list"
+# [1] "list"
 
 grid.newpage() # erases the current device or moves to a new page
 library(gridExtra) # install.packages("gridExtra")
 grid.arrange(grobs=myplots, ncol=no.data)
 
 myplots <- lapply(1:no.data, function(i){
-  +   heatmap(simulated.data[[i]], main=paste(i))
-  +   grid.echo()
-  +   grid.grab()
-  + })
+     heatmap(simulated.data[[i]], main=paste(i))
+     grid.echo()
+     grid.grab()
+   })
 
 arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
             name = "arrange", as.table = TRUE, respect = FALSE, clip = "off",
@@ -1354,6 +1378,8 @@ cell.data[cell.data > 2.802712] <- 2.802712
 cellcycle.color <- c("darkgreen", "blue", "red", "gray50", "orange")
 rc <- cellcycle.color[gene.phase+1]
 cc <- rainbow(ncol(cell.data))
+
+head(cell.data)
 
 hv1 <- heatmap(cell.data[n:1,], col = gbr, Colv=NA, Rowv=NA,
                RowSideColors = rc, 
