@@ -74,3 +74,16 @@ scatter3D(x, y, z,
           xlab = "Sepal.Length", 
           zlab = "Petal.Length", 
           ylab = "Sepal.Width")
+
+# Weibull
+my.function <- function(x, a, b){
+  return(a*b^(-a)*x^(a-1)*exp(-(x/b)^a))
+}
+x <- seq(0, 5, 0.1)
+my.function(x, 1, 2)
+y1 <- my.function(x, 1, 2)
+y2 <- my.function(x, 2, 2)
+y3 <- my.function(x, 5, 2)
+plot(x, y1, xlim=c(0,5), ylim=c(0.0, 1.5), type="l")
+lines(x, y2, type="l")
+lines(x, y3, type="l")
